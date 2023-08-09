@@ -43,6 +43,14 @@ Os padrões comportamentais se concentram na comunicação entre objetos, como o
 
 ### Padrões Criacionais
 
+#### Factory Method
+
+
+##### Referencia
+[Um Programador Pleno já deveria saber usar esse Design Pattern (tutorial linha a linha)](https://youtu.be/arAz2Ff8s88)
+[Combinação Extremamente Poderosa Para Qualquer Programador (Factory + Injeção de Dependência)](https://youtu.be/uyOJ2jjBtBs)
+
+
 ### Padrões Estruturais
 
 ## Padrões Comportamentais
