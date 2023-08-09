@@ -5,50 +5,161 @@ Este é apenas o resumo dos meus estudos iniciais sobre padrões de projeto. Os 
 ## Introdução
 
 ### Padrões Criacionais
-Os padrões criacionais se concentram em técnicas de criação de objetos, garantindo que os objetos sejam criados de maneira adequada para a situação. Eles ajudam a gerenciar a criação de objetos, tornando o sistema mais independente de como seus objetos são criados e representados.
+Os padrões criacionais se concentram em técnicas de criação de objetos, garantindo que os objetos sejam criados de maneira adequada para a situação.
 
-1. **Singleton**: Este padrão garante que uma classe tenha apenas uma instância e fornece um ponto de acesso global a essa instância. É útil quando você quer garantir que uma classe controle o acesso aos recursos, como um único ponto de configuração ou um pool de conexões.
-2. **Factory Method**: Permite que uma classe delegue a responsabilidade de instanciar seus objetos a subclasses. Isso é útil quando uma classe não pode antecipar o tipo de objetos que precisa criar.
-3. **Abstract Factory**: Fornece uma interface para criar famílias de objetos relacionados ou dependentes sem especificar suas classes concretas. É como uma fábrica de fábricas.
-4. **Builder**: Separa a construção de um objeto complexo de sua representação, permitindo que o mesmo processo de construção crie diferentes representações. É útil quando um objeto precisa ser criado com muitas opções possíveis de configuração.
-5. **Prototype**: Permite criar um objeto totalmente funcional clonando um objeto existente. É útil quando a criação de uma instância é mais cara do que clonar uma existente.
+1. **[Singleton](#singleton)**
+2. **[Factory Method](#factory-method)**
+3. **[Abstract Factory](#abstract-factory)**
+4. **[Builder](#builder)**
+5. **[Prototype](#prototype)**
 
 ### Padrões Estruturais
-Os padrões estruturais se concentram em como os objetos e classes são combinados para formar estruturas maiores. Eles ajudam a garantir que, quando uma parte do sistema muda, o sistema inteiro não precisa ser alterado.
+Os padrões estruturais se concentram em como os objetos e classes são combinados para formar estruturas maiores.
 
-1. **Adapter**: Converte a interface de uma classe em outra interface que o cliente espera. É como um tradutor entre duas interfaces incompatíveis.
-2. **Bridge**: Desacopla uma abstração de sua implementação para que ambas possam variar independentemente. É útil quando abstrações e implementações devem ser extensíveis independentemente.
-3. **Composite**: Permite tratar objetos individuais e composições de objetos de maneira uniforme. É útil para representar hierarquias de objetos.
-4. **Decorator**: Adiciona responsabilidades adicionais a um objeto dinamicamente. É uma alternativa flexível à subclasse para estender a funcionalidade.
-5. **Facade**: Fornece uma interface simplificada para um conjunto de interfaces em um subsistema. É como uma interface unificada para um conjunto de operações.
-6. **Flyweight**: Usa compartilhamento para suportar eficientemente grandes quantidades de objetos finos. É útil quando muitos objetos compartilham propriedades comuns e podem ser referenciados em vez de replicados.
-7. **Proxy**: Fornece um substituto ou espaço reservado para outro objeto controlar o acesso a ele. Pode ser usado para adicionar uma camada entre o cliente e o objeto real.
+1. **[Adapter](#adapter)**
+2. **[Bridge](#bridge)**
+3. **[Composite](#composite)**
+4. **[Decorator](#decorator)**
+5. **[Facade](#facade)**
+6. **[Flyweight](#flyweight)**
+7. **[Proxy](#proxy)**
 
 ### Padrões Comportamentais
-Os padrões comportamentais se concentram na comunicação entre objetos, como os objetos são feitos para interagir uns com os outros. Eles ajudam a garantir que os componentes do sistema atuem juntos, mantendo a flexibilidade e eficiência.
+Os padrões comportamentais se concentram na comunicação entre objetos.
 
-1. **Chain of Responsibility**: Permite que mais de um objeto processe uma solicitação. A solicitação é passada ao longo de uma cadeia de objetos até que um deles a processe.
-2. **Command**: Encapsula uma solicitação como um objeto, permitindo que os usuários parametrizem objetos com operações, enfileirem solicitações e registrem as operações.
-3. **Interpreter**: Fornece uma maneira de avaliar sentenças em uma linguagem. É útil para interpretar linguagens de domínio específico.
-4. **Iterator**: Fornece uma maneira de acessar os elementos de uma coleção de objetos sequencialmente sem expor sua representação subjacente.
-5. **Mediator**: Define um objeto que encapsula como um conjunto de objetos interage. É útil para reduzir as dependências entre classes.
-6. **Memento**: Captura e externaliza o estado interno de um objeto sem violar o encapsulamento. É útil para implementar pontos de verificação e desfazer funcionalidades.
-7. **Observer**: Define uma dependência um-para-muitos entre objetos para que, quando um objeto muda de estado, todos os seus dependentes sejam notificados e atualizados automaticamente.
-8. **State**: Permite que um objeto altere seu comportamento quando seu estado interno muda. É como se o objeto mudasse de classe.
-9. **Strategy**: Define uma família de algoritmos, encapsula cada um e os torna intercambiáveis. Permite que o algoritmo varie independentemente dos clientes que o utilizam
-10. **Template Method**: Define o esqueleto de um algoritmo em uma operação, adiando alguns passos para as subclasses. Permite que subclasses redefinam certos passos de um algoritmo sem alterar sua estrutura.
-11. **Visitor**:Representa uma operação a ser executada nos elementos de uma estrutura de objeto. Permite adicionar novas operações sem alterar as classes dos elementos nos quais opera.
+1. **[Chain of Responsibility](#chain-of-responsibility)**
+2. **[Command](#command)**
+3. **[Interpreter](#interpreter)**
+4. **[Iterator](#iterator)**
+5. **[Mediator](#mediator)**
+6. **[Memento](#memento)**
+7. **[Observer](#observer)**
+8. **[State](#state)**
+9. **[Strategy](#strategy)**
+10. **[Template Method](#template-method)**
+11. **[Visitor](#visitor)**
+
 
 ## Explorando mais detalhadamente os padrões de projetos.
 
 ### Padrões Criacionais
 
+
 #### Factory Method
 
+#### Definição
+O Factory Method é um padrão de design criacional que fornece uma interface para criar objetos, mas permite que as subclasses alterem o tipo de objetos que serão criados.
 
+#### Intenção
+A intenção principal do padrão Factory Method é definir uma interface para criar um objeto, mas deixar as subclasses decidirem qual classe instanciar. O Factory Method permite adiar a instanciação para as subclasses.
+
+#### Estrutura
+O padrão Factory Method envolve as seguintes componentes principais:
+- **Creator**: Classe abstrata que declara o método de fábrica.
+- **ConcreteCreator**: Classe concreta que implementa o método de fábrica e retorna uma instância de ConcreteProduct.
+- **Product**: Define a interface dos objetos que o método de fábrica cria.
+- **ConcreteProduct**: Implementa a interface Product e é o objeto real que o método de fábrica cria.
+
+#### Como Funciona
+1. A classe Creator declara o método de fábrica que retorna um objeto do tipo Product.
+2. As subclasses ConcreteCreator implementam esse método para produzir objetos que se conformam com a interface Product.
+3. O código que usa o Creator nunca precisa saber a classe concreta do objeto que está sendo criado.
+
+#### Vantagens
+- **Flexibilidade**: Permite introduzir novas classes concretas sem alterar o código existente.
+- **Desacoplamento**: O código cliente não depende das classes concretas, já que a criação de objetos é feita através de uma interface comum.
+
+#### Exemplo
+Imagine uma aplicação de desenho que pode criar diferentes tipos de formas, como círculos, quadrados, etc. Usando o Factory Method, você pode definir uma interface comum para criar uma forma e, em seguida, implementar subclasses específicas para cada tipo de forma. Isso permite adicionar novas formas à aplicação sem modificar o código existente.
+
+#### Conclusão
+O padrão Factory Method é uma ferramenta poderosa para promover a organização, flexibilidade e extensibilidade do código. É amplamente utilizado em bibliotecas e frameworks onde a implementação é esperada para ser estendida por aplicações cliente.
+
+#### Exemplo
+
+```python
+# Exemplo do padrão Factory Method
+# Descrição do problema - suponha que você tem varias entidades que podem ter dados persistidos em um banco de dados
+# porém algum dados são persistidos com alguma inconsistência, por exemplo, o campo que deveria estar preenchido e não está
+# ou com a mudança de um regra de negocio o campo que deveria ser preenchido com um valor passa a ser preenchido com outro algum similar
+# um  health check é uma forma de verificar se os dados estão consistentes, porém cada entidade tem sua regra de negocio para verificar
+
+
+from abc import ABC, abstractmethod
+
+# metodo abstrato para que os serviços implementem o health check
+
+class HealthCheck(ABC):
+	@abstractmethod
+	def health_check(self):
+		pass
+
+# classe abstrata que implementa a criação das mensagens de erro do health check
+
+class CreatorMessage(ABC):
+	@abstractmethod
+	def create_message(self):# factory_method
+		pass
+
+# classe abstrata que implementa a criação dos serviços
+
+class CreatorMessageServiceA(CreatorMessage):
+	def create_message(self):
+		print ("Service A message errors")
+
+class CreatorMessageServiceB(CreatorMessage):
+	def create_message(self):
+		print ("Service B message errors")
+
+class CreatorMessageServiceC(CreatorMessage):
+	def create_message(self):
+		print ("Service C message errors")
+
+class ServiceA(HealthCheck):
+	def health_check(self, creator_message: CreatorMessage):
+		print("Service A health check")
+		creator_message.create_message()
+
+class ServiceB(HealthCheck):
+	def health_check(self, creator_message: CreatorMessage):
+		print("Service B health check")
+		creator_message.create_message()
+
+class ServiceC(HealthCheck):
+	def health_check(self, creator_message: CreatorMessage):
+		print("Service C health check")
+		creator_message.create_message()
+
+
+if __name__ == "__main__":
+	service_a = ServiceA()
+	service_b = ServiceB()
+	service_c = ServiceC()
+
+	creator_message_service_a = CreatorMessageServiceA()
+	creator_message_service_b = CreatorMessageServiceB()
+	creator_message_service_c = CreatorMessageServiceC()
+
+	service_a.health_check(creator_message_service_a)
+	service_b.health_check(creator_message_service_b)
+	service_c.health_check(creator_message_service_c)
+
+########################## Saida ###########################################
+# Service A health check
+# Service A message errors
+# Service B health check
+# Service B message errors
+# Service C health check
+# Service C message errors
+
+```
 ##### Referencia
+[Factory Method](https://refactoring.guru/design-patterns/factory-method)
+[Factory Method - python  ](https://refactoring.guru/design-patterns/factory-method/python/example)
 [Um Programador Pleno já deveria saber usar esse Design Pattern (tutorial linha a linha)](https://youtu.be/arAz2Ff8s88)
 [Combinação Extremamente Poderosa Para Qualquer Programador (Factory + Injeção de Dependência)](https://youtu.be/uyOJ2jjBtBs)
+
+
 
 
 ### Padrões Estruturais
