@@ -7,11 +7,11 @@ Este é apenas o resumo dos meus estudos iniciais sobre padrões de projeto. Os 
 ### Padrões Criacionais
 Os padrões criacionais se concentram em técnicas de criação de objetos, garantindo que os objetos sejam criados de maneira adequada para a situação.
 
-1. **[Singleton](#singleton)**
+1. **Singleton**
 2. **[Factory Method](#factory-method)**
 3. **[Abstract Factory](#abstract-factory)**
 4. **[Builder](#builder)**
-5. **[Prototype](#prototype)**
+5. **Prototype**
 
 ### Padrões Estruturais
 Os padrões estruturais se concentram em como os objetos e classes são combinados para formar estruturas maiores.
@@ -164,9 +164,18 @@ Os serviços (ServiceA/B/C) dependem da interface **CreatorMessage**, e não das
 [Um Programador Pleno já deveria saber usar esse Design Pattern (tutorial linha a linha)](https://youtu.be/arAz2Ff8s88)
 [Combinação Extremamente Poderosa Para Qualquer Programador (Factory + Injeção de Dependência)](https://youtu.be/uyOJ2jjBtBs)
 
+### Abstract Factory
+
+##### Referencia
+[Entenda DEFINITIVAMENTE o padrão Abstract Factory do GOF](https://youtu.be/_EcV-BcJ2-E)
+[Abstract Factory Teoria - Padrões de Projeto - Parte 12/45](https://youtu.be/UPSuHqNsNs4)
 
 
+### strategy
 
+[Strategy](https://refactoring.guru/design-patterns/strategy)
+[Identifique Quando e Como Usar o Design Pattern Strategy na Prática](https://youtu.be/WPdrnuSHAQs)
+[Design Pattern Strategy: Entendendo na Prática](https://youtu.be/pxmqkzWPW6E)
 ### Padrões Estruturais
 
 ## Padrões Comportamentais
