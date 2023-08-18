@@ -166,16 +166,92 @@ Os serviços (ServiceA/B/C) dependem da interface **CreatorMessage**, e não das
 
 ### Abstract Factory
 
+
+
 ##### Referencia
 [Entenda DEFINITIVAMENTE o padrão Abstract Factory do GOF](https://youtu.be/_EcV-BcJ2-E)
 [Abstract Factory Teoria - Padrões de Projeto - Parte 12/45](https://youtu.be/UPSuHqNsNs4)
 
+### Padrões Estruturais
+
+## Padrões Comportamentais
 
 ### strategy
+
+#### O que é o Strategy Pattern?
+
+O **Strategy Pattern** define uma família de algoritmos, encapsula cada um deles e os torna intercambiáveis. O padrão permite que o algoritmo varie independentemente dos clientes que o utilizam. Em outras palavras, ele permite que você separe um conjunto de algoritmos da classe que os utiliza, para que a classe e os algoritmos possam variar independentemente.
+
+#### Componentes principais do Strategy Pattern:
+
+1. **Strategy (Estratégia)**: Esta é uma interface ou uma classe abstrata usada para definir uma família de algoritmos.
+2. **Concrete Strategies (Estratégias Concretas)**: Estas são as implementações específicas da estratégia. Cada uma implementa um algoritmo diferente.
+3. **Context (Contexto)**: O Contexto mantém uma referência a uma estratégia e pode alternar entre diferentes estratégias. Ele usa a estratégia para executar uma operação.
+
+#### Por que usar o Strategy Pattern?
+
+1. **Flexibilidade**: O Strategy Pattern permite que você defina uma família de algoritmos e os torne intercambiáveis. Isso significa que você pode alterar o comportamento de um programa em tempo de execução, escolhendo diferentes estratégias.
+2. **Separação de Responsabilidades**: O padrão separa o código que usa o algoritmo do código que implementa o algoritmo. Isso torna o código mais modular e fácil de estender.
+3. **Evita Condições Múltiplas**: Em vez de usar várias condicionais para escolher qual algoritmo usar, você pode encapsular o algoritmo em uma estratégia e simplesmente mudar a estratégia.
+
+#### Exemplo
+
+### Exemplo: Calculadora de Descontos
+
+```python
+from abc import ABC, abstractmethod
+
+# Estratégia abstrata
+class DiscountStrategy(ABC):
+
+    @abstractmethod
+    def apply_discount(self, price: float) -> float:
+        pass
+
+# Estratégia concreta 1: Desconto fixo de $10
+class FixedDiscount(DiscountStrategy):
+
+    def apply_discount(self, price: float) -> float:
+        return price - 10
+
+# Estratégia concreta 2: Desconto de 10%
+class PercentageDiscount(DiscountStrategy):
+
+    def apply_discount(self, price: float) -> float:
+        return price * 0.9
+
+# Contexto
+class Product:
+
+    def __init__(self, name: str, price: float, discount_strategy: DiscountStrategy):
+        self.name = name
+        self.price = price
+        self.discount_strategy = discount_strategy
+
+    def get_discounted_price(self) -> float:
+        return self.discount_strategy.apply_discount(self.price)
+
+# Testando
+product1 = Product("Camiseta", 50, FixedDiscount())
+print(f"Preço com desconto para {product1.name}: ${product1.get_discounted_price()}")
+
+product2 = Product("Tênis", 100, PercentageDiscount())
+print(f"Preço com desconto para {product2.name}: ${product2.get_discounted_price()}")
+
+
+```
+
+Imagine que você está desenvolvendo um sistema de e-commerce e deseja aplicar diferentes estratégias de desconto aos produtos. Algumas estratégias podem oferecer um desconto fixo, outras um desconto percentual, e assim por diante.
+
+1. **DiscountStrategy (Estratégia de Desconto)**: Esta é a estratégia abstrata que define o método `apply_discount`, que todas as estratégias concretas devem implementar.
+
+2. **FixedDiscount e PercentageDiscount (Descontos Fixo e Percentual)**: Estas são as estratégias concretas que fornecem implementações específicas para o método `apply_discount`. `FixedDiscount` subtrai um valor fixo do preço, enquanto `PercentageDiscount` aplica um desconto percentual.
+
+3. **Product (Produto)**: Esta é a classe contexto. Ela representa um produto que tem um nome, um preço e uma estratégia de desconto. A classe `Product` usa a estratégia de desconto para calcular o preço com desconto através do método `get_discounted_price`.
+
+Ao usar o **Strategy Pattern** neste exemplo, você pode facilmente adicionar novas estratégias de desconto no futuro sem modificar o código existente. Por exemplo, se você quiser adicionar uma estratégia de "compre um, leve o segundo pela metade do preço", basta criar uma nova classe que implemente `DiscountStrategy` e aplicá-la ao produto desejado.
+
 
 [Strategy](https://refactoring.guru/design-patterns/strategy)
 [Identifique Quando e Como Usar o Design Pattern Strategy na Prática](https://youtu.be/WPdrnuSHAQs)
 [Design Pattern Strategy: Entendendo na Prática](https://youtu.be/pxmqkzWPW6E)
-### Padrões Estruturais
-
-## Padrões Comportamentais
