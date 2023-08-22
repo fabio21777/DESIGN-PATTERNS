@@ -255,3 +255,82 @@ Ao usar o **Strategy Pattern** neste exemplo, você pode facilmente adicionar no
 [Strategy](https://refactoring.guru/design-patterns/strategy)
 [Identifique Quando e Como Usar o Design Pattern Strategy na Prática](https://youtu.be/WPdrnuSHAQs)
 [Design Pattern Strategy: Entendendo na Prática](https://youtu.be/pxmqkzWPW6E)
+
+### Chain of Responsibility
+
+O padrão Chain of Responsibility permite que uma solicitação seja passada ao longo de uma cadeia de potenciais manipuladores até que um deles lide com a solicitação.
+
+#### Componentes principais:
+- **Handler (Manipulador):** Interface que define os métodos que todos os handlers devem implementar.
+- **AbstractHandler:** Classe concreta que implementa a lógica padrão para encadear os handlers e passar a solicitação ao longo da cadeia.
+- **ConcreteHandlers (Manipuladores Concretos):** Classes que implementam a lógica específica para lidar com as solicitações.
+
+#### Funcionamento:
+1. Uma solicitação é passada para o primeiro handler da cadeia.
+2. Se o handler pode processar a solicitação, ele faz isso e a cadeia termina.
+3. Se o handler não pode processar a solicitação, ele passa para o próximo handler na cadeia.
+4. O processo se repete até que um handler processe a solicitação ou até que todos os handlers tenham sido tentados.
+
+#### Exemplo
+Imagine um sistema de suporte técnico onde diferentes níveis de suporte lidam com problemas de diferentes complexidades. Se um nível não pode resolver o problema, ele é passado para o próximo nível. No código fornecido, temos três níveis de suporte (`SuporteNivel1`, `SuporteNivel2` e `SuporteNivel3`) que tentam resolver problemas de diferentes complexidades.
+
+```python
+from abc import ABC, abstractmethod
+
+
+# Interface Handler (AbstractHandler)
+class Handler(ABC):
+    @abstractmethod
+    def set_proximo(self, handler):
+        pass
+
+    @abstractmethod
+    def lidar_com_solicitacao(self, request):
+        pass
+
+# Classe concreta que implementa comportamentos padrões entre os handlers
+class AbstractHandler(Handler):
+    _proximo_handler = None
+
+    def set_proximo(self, handler):
+        self._proximo_handler = handler
+        # Retornando handler para permitir encadeamento
+        return handler
+
+    def lidar_com_solicitacao(self, request):
+        if self._proximo_handler:
+            return self._proximo_handler.lidar_com_solicitacao(request)
+        return "Não foi possível resolver o problema. :´("
+
+# ConcreteHandlers
+class SuporteNivel1(AbstractHandler):
+    def lidar_com_solicitacao(self, request):
+        if request == "Problema Nível 1":
+            return f"Suporte Nível 1 resolveu o {request}"
+        else:
+            return super().lidar_com_solicitacao(request)
+
+class SuporteNivel2(AbstractHandler):
+    def lidar_com_solicitacao(self, request):
+        if request == "Problema Nível 2":
+            return f"Suporte Nível 2 resolveu o {request}"
+        else:
+            return super().lidar_com_solicitacao(request)
+
+class SuporteNivel3(AbstractHandler):
+    def lidar_com_solicitacao(self, request):
+        if request == "Problema Nível 3":
+            return f"Suporte Nível 3 resolveu o {request}"
+        else:
+            return super().lidar_com_solicitacao(request)
+
+# Uso
+suporte = SuporteNivel1()
+suporte.set_proximo(SuporteNivel2()).set_proximo(SuporteNivel3())
+
+print(suporte.lidar_com_solicitacao("Problema Nível 1"))
+print(suporte.lidar_com_solicitacao("Problema Nível 2"))
+print(suporte.lidar_com_solicitacao("Problema Nível 3"))
+print(suporte.lidar_com_solicitacao("Problema Nível 4"))
+
+```
