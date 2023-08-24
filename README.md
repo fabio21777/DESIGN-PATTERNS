@@ -258,6 +258,9 @@ if __name__ == "__main__":
 #### Código
 Caso seja necessário modificar a implementação de **check_product_availability** ou de qualquer outro método, desde que o nome do método não seja alterado, a funcionalidade geral continuará a operar sem problemas. O padrão Facade pode ser entendido como um intermediário na comunicação entre módulos. É semelhante a uma biblioteca que disponibiliza diferentes interfaces (métodos) públicos. Essas interfaces servem como pontos de comunicação para os clientes, simplificando a interação com subsistemas mais complexos por trás dessas interfaces.
 
+#### Ponto de **Atenção**
+Esse carinha, o padrão Facade, parece ser bem legal, né? Mas, vamos jogar um cenário aí: se a gente tivesse um subsistema recheado de classes, tipo, centenas delas, nossa facade poderia virar uma verdadeira colossus! Isso poderia nos levar diretinho a criar uma God Class, sabe? Uma daquelas classes que tentam fazer tudo ao mesmo tempo. Isso pode complicar um bocado as coisas quando a gente tenta entender ou manter o código
+
 ## Padrões Comportamentais
 
 ### strategy
