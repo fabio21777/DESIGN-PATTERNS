@@ -105,29 +105,29 @@ class CreatorMessage(ABC):
 
 class CreatorMessageServiceA(CreatorMessage):
 	def create_message(self):
-		print ("Service A message errors")
+		print ("Serviço A mensagem de erro")
 
 class CreatorMessageServiceB(CreatorMessage):
 	def create_message(self):
-		print ("Service B message errors")
+		print ("Serviço B mensagem de erro")
 
 class CreatorMessageServiceC(CreatorMessage):
 	def create_message(self):
-		print ("Service C message errors")
+		print ("Serviço C mensagem de erro")
 
 class ServiceA(HealthCheck):
 	def health_check(self, creator_message: CreatorMessage):
-		print("Service A health check")
+		print("Serviço A verificando saúde")
 		creator_message.create_message()
 
 class ServiceB(HealthCheck):
 	def health_check(self, creator_message: CreatorMessage):
-		print("Service B health check")
+		print("Serviço B verificando saúde")
 		creator_message.create_message()
 
 class ServiceC(HealthCheck):
 	def health_check(self, creator_message: CreatorMessage):
-		print("Service C health check")
+		print("Serviço C verificando saúde")
 		creator_message.create_message()
 
 
@@ -172,7 +172,89 @@ Os serviços (ServiceA/B/C) dependem da interface **CreatorMessage**, e não das
 [Entenda DEFINITIVAMENTE o padrão Abstract Factory do GOF](https://youtu.be/_EcV-BcJ2-E)
 [Abstract Factory Teoria - Padrões de Projeto - Parte 12/45](https://youtu.be/UPSuHqNsNs4)
 
-### Padrões Estruturais
+## Padrões Estruturais
+
+### Facade
+
+
+#### O que é o Padrão Facade?
+O padrão Facade fornece uma interface simplificada para um subsistema complexo. Ao fazer isso, ele oculta a complexidade desse subsistema de seus clientes, tornando-o mais fácil de ser utilizado.
+
+#### Componentes principais
+1. **Facade:** Esta é a classe principal que fornece métodos simplificados para os clientes. Ela conhece quais classes do subsistema são responsáveis por um pedido e delega esse pedido para os métodos apropriados dessas classes.
+2. **Subsistema:** Estas são as classes que compõem o sistema mais complexo que o Facade está simplificando. As classes do subsistema realizam o trabalho real, mas o padrão Facade encapsula essa complexidade para tornar as coisas mais simples para o cliente.
+
+#### Por que usar o Padrão Facade?
+1. **Simplificação:** O padrão Facade torna sistemas complexos mais fáceis de serem usados, ao fornecer uma interface mais simples.
+2. **Desacoplamento:** Os clientes não precisam conhecer os detalhes internos do subsistema. Isso permite uma separação entre a interface e a implementação.
+3. **Flexibilidade:** Se a implementação interna do subsistema mudar, os clientes que usam o Facade provavelmente não serão afetados, desde que a interface do Facade permaneça consistente.
+4. **Promove a reutilização:** Um subsistema é mais facilmente reutilizável quando existe uma interface Facade que simplifica sua operação.
+
+
+#### Exemplo
+
+```python
+# Subsistemas
+class Stock:
+    def check_product_availability(self, product_id):
+        # Aqui teríamos uma lógica real para verificar o estoque
+        print(f"Verificando disponibilidade do produto {product_id}...")
+        return True
+
+class Payment:
+    def process_payment(self, user, amount):
+        # Lógica real de processamento de pagamento
+        print(f"Processando pagamento de {user} no valor de {amount}...")
+        return True
+
+class Delivery:
+    def organize_delivery(self, user, product_id):
+        # Lógica real para organizar a entrega
+        print(f"Organizando entrega do produto {product_id} para {user}...")
+        return True
+
+# Facade
+class OrderFacade:
+    def __init__(self):
+        self.stock = Stock()
+        self.payment = Payment()
+        self.delivery = Delivery()
+
+    def allProcess(self, user, product_id, amount):
+        if not self.stock.check_product_availability(product_id):
+            print("Produto indisponível!")
+            return False
+
+        if not self.payment.process_payment(user, amount):
+            print("Falha no pagamento!")
+            return False
+
+        if not self.delivery.organize_delivery(user, product_id):
+            print("Falha na organização da entrega!")
+            return False
+
+        print("Pedido realizado com sucesso!")
+        return True
+
+    def check_stock(self, product_id):
+	    return self.stock.check_product_availability(product_id)
+ 
+    def process_payment(self, user, amount):
+        return self.payment.process_payment(user, amount)
+    
+    def organize_delivery(self, user, product_id):
+        return self.delivery.organize_delivery(user, product_id)
+    
+# Cliente
+if __name__ == "__main__":
+    order_system = OrderFacade()
+    #order_system.allProcess("João", "12345", 100)
+    order_system.check_stock("12345")
+    order_system.process_payment("João", 100);
+    order_system.organize_delivery("João", "12345")
+
+```
+
 
 ## Padrões Comportamentais
 
@@ -196,7 +278,7 @@ O **Strategy Pattern** define uma família de algoritmos, encapsula cada um dele
 
 #### Exemplo
 
-### Exemplo: Calculadora de Descontos
+##### Exemplo: Calculadora de Descontos
 
 ```python
 from abc import ABC, abstractmethod
@@ -277,60 +359,60 @@ Imagine um sistema de suporte técnico onde diferentes níveis de suporte lidam 
 ```python
 from abc import ABC, abstractmethod
 
-
 # Interface Handler (AbstractHandler)
 class Handler(ABC):
     @abstractmethod
-    def set_proximo(self, handler):
+    def set_next(self, handler):
         pass
 
     @abstractmethod
-    def lidar_com_solicitacao(self, request):
+    def handle_request(self, request):
         pass
 
-# Classe concreta que implementa comportamentos padrões entre os handlers
+# Concrete class that implements default behaviors between handlers
 class AbstractHandler(Handler):
-    _proximo_handler = None
+    _next_handler = None
 
-    def set_proximo(self, handler):
-        self._proximo_handler = handler
-        # Retornando handler para permitir encadeamento
+    def set_next(self, handler):
+        self._next_handler = handler
+        # Returning handler to allow chaining
         return handler
 
-    def lidar_com_solicitacao(self, request):
-        if self._proximo_handler:
-            return self._proximo_handler.lidar_com_solicitacao(request)
+    def handle_request(self, request):
+        if self._next_handler:
+            return self._next_handler.handle_request(request)
         return "Não foi possível resolver o problema. :´("
 
 # ConcreteHandlers
-class SuporteNivel1(AbstractHandler):
-    def lidar_com_solicitacao(self, request):
+class SupportLevel1(AbstractHandler):
+    def handle_request(self, request):
         if request == "Problema Nível 1":
             return f"Suporte Nível 1 resolveu o {request}"
         else:
-            return super().lidar_com_solicitacao(request)
+            return super().handle_request(request)
 
-class SuporteNivel2(AbstractHandler):
-    def lidar_com_solicitacao(self, request):
+class SupportLevel2(AbstractHandler):
+    def handle_request(self, request):
         if request == "Problema Nível 2":
             return f"Suporte Nível 2 resolveu o {request}"
         else:
-            return super().lidar_com_solicitacao(request)
+            return super().handle_request(request)
 
-class SuporteNivel3(AbstractHandler):
-    def lidar_com_solicitacao(self, request):
+class SupportLevel3(AbstractHandler):
+    def handle_request(self, request):
         if request == "Problema Nível 3":
             return f"Suporte Nível 3 resolveu o {request}"
         else:
-            return super().lidar_com_solicitacao(request)
+            return super().handle_request(request)
 
-# Uso
-suporte = SuporteNivel1()
-suporte.set_proximo(SuporteNivel2()).set_proximo(SuporteNivel3())
+# Usage
+support = SupportLevel1()
+support.set_next(SupportLevel2()).set_next(SupportLevel3())
 
-print(suporte.lidar_com_solicitacao("Problema Nível 1"))
-print(suporte.lidar_com_solicitacao("Problema Nível 2"))
-print(suporte.lidar_com_solicitacao("Problema Nível 3"))
-print(suporte.lidar_com_solicitacao("Problema Nível 4"))
+print(support.handle_request("Problema Nível 1"))
+print(support.handle_request("Problema Nível 2"))
+print(support.handle_request("Problema Nível 3"))
+print(support.handle_request("Problema Nível 4"))
+
 
 ```

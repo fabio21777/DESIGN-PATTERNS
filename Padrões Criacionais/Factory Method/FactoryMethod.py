@@ -1,10 +1,3 @@
-# Exemplo do padrão Factory Method
-# Descrição do problema - suponha que você tem varias entidades que podem ter dados persistidos em um banco de dados
-# porém algum dados são persistidos com alguma inconsistência, por exemplo, o campo que deveria estar preenchido e não está
-# ou com a mudança de um regra de negocio o campo que deveria ser preenchido com um valor passa a ser preenchido com outro algum similar
-# um  health check é uma forma de verificar se os dados estão consistentes, porém cada entidade tem sua regra de negocio para verificar
-
-
 from abc import ABC, abstractmethod
 
 # metodo abstrato para que os serviços implementem o health check
@@ -25,29 +18,29 @@ class CreatorMessage(ABC):
 
 class CreatorMessageServiceA(CreatorMessage):
 	def create_message(self):
-		print ("Service A message errors")
+		print ("Serviço A mensagem de erro")
 
 class CreatorMessageServiceB(CreatorMessage):
 	def create_message(self):
-		print ("Service B message errors")
+		print ("Serviço B mensagem de erro")
 
 class CreatorMessageServiceC(CreatorMessage):
 	def create_message(self):
-		print ("Service C message errors")
+		print ("Serviço C mensagem de erro")
 
 class ServiceA(HealthCheck):
 	def health_check(self, creator_message: CreatorMessage):
-		print("Service A health check")
+		print("Serviço A verificando saúde")
 		creator_message.create_message()
 
 class ServiceB(HealthCheck):
 	def health_check(self, creator_message: CreatorMessage):
-		print("Service B health check")
+		print("Serviço B verificando saúde")
 		creator_message.create_message()
 
 class ServiceC(HealthCheck):
 	def health_check(self, creator_message: CreatorMessage):
-		print("Service C health check")
+		print("Serviço C verificando saúde")
 		creator_message.create_message()
 
 
@@ -63,9 +56,3 @@ if __name__ == "__main__":
 	service_a.health_check(creator_message_service_a)
 	service_b.health_check(creator_message_service_b)
 	service_c.health_check(creator_message_service_c)
-
-
-
-
-
-
