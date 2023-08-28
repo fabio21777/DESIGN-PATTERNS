@@ -238,13 +238,13 @@ class OrderFacade:
 
     def check_stock(self, product_id):
 	    return self.stock.check_product_availability(product_id)
- 
+
     def process_payment(self, user, amount):
         return self.payment.process_payment(user, amount)
-    
+
     def organize_delivery(self, user, product_id):
         return self.delivery.organize_delivery(user, product_id)
-    
+
 # Cliente
 if __name__ == "__main__":
     order_system = OrderFacade()
@@ -260,6 +260,9 @@ Caso seja necessário modificar a implementação de **check_product_availabilit
 
 #### Ponto de **Atenção**
 Esse carinha, o padrão Facade, parece ser bem legal, né? Mas, vamos jogar um cenário aí: se a gente tivesse um subsistema recheado de classes, tipo, centenas delas, nossa facade poderia virar uma verdadeira colossus! Isso poderia nos levar diretinho a criar uma God Class, sabe? Uma daquelas classes que tentam fazer tudo ao mesmo tempo. Isso pode complicar um bocado as coisas quando a gente tenta entender ou manter o código
+
+##### Referencia
+[refactoring - Facade](https://refactoring.guru/pt-br/design-patterns/facade)
 
 ## Padrões Comportamentais
 
@@ -338,6 +341,7 @@ Imagine que você está desenvolvendo um sistema de e-commerce e deseja aplicar 
 
 Ao usar o **Strategy Pattern** neste exemplo, você pode facilmente adicionar novas estratégias de desconto no futuro sem modificar o código existente. Por exemplo, se você quiser adicionar uma estratégia de "compre um, leve o segundo pela metade do preço", basta criar uma nova classe que implemente `DiscountStrategy` e aplicá-la ao produto desejado.
 
+##### Referencia
 
 [Strategy](https://refactoring.guru/design-patterns/strategy)
 [Identifique Quando e Como Usar o Design Pattern Strategy na Prática](https://youtu.be/WPdrnuSHAQs)
@@ -421,3 +425,97 @@ print(support.handle_request("Problema Nível 4"))
 
 
 ```
+### Template Method
+
+#### O que é o Padrão Template Method?
+O padrão Template Method faz parte dos padrões de design comportamentais e define o esqueleto de um algoritmo em uma operação, adiando alguns passos para as subclasses. Ele permite que as subclasses redefinam certas etapas de um algoritmo sem alterar sua estrutura.
+
+#### Componentes Principais:
+
+1. **AbstractClass**:
+    - Esta é a classe base que define e implementa o "template method". Este método é composto por uma série de passos para executar o algoritmo. Alguns desses passos podem ser concretos (com uma implementação padrão) e outros podem ser abstratos, deixando para as subclasses a responsabilidade de sua implementação.
+    - Contém métodos abstratos (operacionalizações primitivas) que as subclasses devem implementar.
+
+2. **ConcreteClass**:
+    - Estas são subclasses da AbstractClass e implementam os métodos abstratos deixados indefinidos na classe base.
+    - Fornecem a implementação específica para os passos abstratos do algoritmo.
+
+#### Por que usar?
+
+1. **Promove a Reutilização de Código**: Ao isolar as partes invariáveis de um algoritmo na classe base e deixar as partes variáveis para as subclasses, evita-se a duplicação de código.
+2. **Flexibilidade**: Oferece um framework onde as subclasses podem definir como algumas etapas do algoritmo devem ser realizadas, sem alterar a estrutura geral do algoritmo.
+3. **Inversão de Controle**: Ao contrário de usar herança direta, onde as subclasses podem inadvertidamente alterar partes do algoritmo, o Template Method garante que a estrutura do algoritmo permaneça inalterada, enquanto permite que as subclasses mudem apenas as partes que precisam ser personalizadas.
+
+
+#### Exemplo
+
+```python
+
+class AbstractRecipe:
+    """Classe abstrata que define a estrutura do método template."""
+
+    def execute(self):
+        """Método template que define a sequência de passos."""
+        self.prepare()
+        self.cook()
+        self.finalize()
+        self.common_method()
+
+    def prepare(self):
+        """Preparação dos ingredientes. Deve ser implementado por subclasses."""
+        raise NotImplementedError
+
+    def cook(self):
+        """Processo de cozimento. Deve ser implementado por subclasses."""
+        raise NotImplementedError
+
+    def finalize(self):
+        """Finalização da receita. Deve ser implementado por subclasses."""
+        raise NotImplementedError
+
+    def common_method(self):
+        """Método comum para todas as subclasses."""
+        print("Desfrute da sua refeição!")
+
+class SpaghettiRecipe(AbstractRecipe):
+    """Subclasse que implementa os métodos abstratos para uma receita de espaguete."""
+
+    def prepare(self):
+        print("Preparando os ingredientes para o espaguete.")
+
+    def cook(self):
+        print("Cozinhando o espaguete em água fervente.")
+
+    def finalize(self):
+        print("Finalizando com molho e queijo.")
+
+class SoupRecipe(AbstractRecipe):
+    """Subclasse que implementa os métodos abstratos para uma receita de sopa."""
+
+    def prepare(self):
+        print("Preparando os ingredientes para a sopa.")
+
+    def cook(self):
+        print("Fervendo os ingredientes.")
+
+    def finalize(self):
+        print("Finalizando com temperos e servindo quente.")
+
+if __name__ == "__main__":
+    print("Receita de Espaguete:")
+    recipe1 = SpaghettiRecipe()
+    recipe1.execute()
+
+    print("\nReceita de Sopa:")
+    recipe2 = SoupRecipe()
+    recipe2.execute()
+```
+
+
+#### Por que não usar?
+
+1. **Limitações na Personalização**: Enquanto o Template Method permite que as subclasses alterem partes do algoritmo, elas ainda estão limitadas à estrutura definida na classe base. Se uma subclasse precisar de uma sequência radicalmente diferente de operações, o Template Method pode não ser o melhor padrão a ser usado.
+2. **Pode Levar a Muitas Subclasses**: Se cada variação do algoritmo exigir uma nova subclasse, pode-se acabar com muitas subclasses pequenas que são difíceis de gerenciar.
+3. **Acoplamento**: Como as subclasses dependem da classe base, qualquer alteração na classe base pode ter efeitos colaterais nas subclasses, levando a problemas de manutenção.
+
+Em resumo, enquanto o padrão Template Method é poderoso e útil em muitos cenários, é importante considerar as necessidades específicas do sistema e os trade-offs envolvidos antes de decidir usá-lo.
