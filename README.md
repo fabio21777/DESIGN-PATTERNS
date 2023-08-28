@@ -172,6 +172,34 @@ Os serviços (ServiceA/B/C) dependem da interface **CreatorMessage**, e não das
 [Entenda DEFINITIVAMENTE o padrão Abstract Factory do GOF](https://youtu.be/_EcV-BcJ2-E)
 [Abstract Factory Teoria - Padrões de Projeto - Parte 12/45](https://youtu.be/UPSuHqNsNs4)
 
+#### Builder
+
+
+### O que é:
+O padrão Builder é um padrão de projeto de software criacional que permite a construção de objetos complexos passo a passo. Ele separa a construção de um objeto complexo de sua representação, de modo que o mesmo processo de construção possa criar diferentes representações.
+
+### Componentes principais:
+1. **Builder**: Interface que define os métodos para construir as partes de um objeto complexo.
+2. **ConcreteBuilder**: Implementa a interface Builder e constrói e monta as partes do produto, definindo e mantendo uma representação.
+3. **Director**: Constrói um objeto usando a interface Builder.
+4. **Product**: Representa o objeto complexo que está sendo construído. ConcreteBuilder constrói a representação interna do produto e define o processo de montagem.
+
+### Por que usar:
+1. **Separação de Responsabilidades**: Separa a construção de um objeto complexo de sua representação.
+2. **Flexibilidade**: Permite que um objeto seja construído em várias etapas e até mesmo com detalhes variados a cada construção.
+3. **Criação de Objetos Complexos**: Facilita a criação de objetos que possuem muitos atributos ou que possuem uma sequência específica de etapas de construção.
+4. **Reutilização**: O mesmo processo de construção pode criar diferentes representações.
+
+### Pontos de atenção:
+1. **Complexidade Adicional**: Pode introduzir uma complexidade adicional ao código, pois divide a construção em várias classes.
+2. **Necessidade**: Não deve ser usado se o objeto que você está tentando criar é simples e não requer uma configuração complexa.
+
+
+##### Referencia
+[refactoring - Builder](https://refactoring.guru/design-patterns/builder)
+[GOF BUILDER - Entenda de forma FÁCIL e OBJETIVA como ele funciona](https://youtu.be/dbw_BMHEgkY?si=0PW2mqz0XFbuVfMf)
+
+[Design Pattern Builder na Prática](https://youtu.be/W-96z2EjoJ0?si=KUGBuEXcgEDSklNb)
 ## Padrões Estruturais
 
 ### Facade
