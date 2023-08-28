@@ -175,25 +175,117 @@ Os serviços (ServiceA/B/C) dependem da interface **CreatorMessage**, e não das
 #### Builder
 
 
-### O que é:
+##### O que é:
 O padrão Builder é um padrão de projeto de software criacional que permite a construção de objetos complexos passo a passo. Ele separa a construção de um objeto complexo de sua representação, de modo que o mesmo processo de construção possa criar diferentes representações.
 
-### Componentes principais:
+##### Componentes principais:
 1. **Builder**: Interface que define os métodos para construir as partes de um objeto complexo.
 2. **ConcreteBuilder**: Implementa a interface Builder e constrói e monta as partes do produto, definindo e mantendo uma representação.
 3. **Director**: Constrói um objeto usando a interface Builder.
 4. **Product**: Representa o objeto complexo que está sendo construído. ConcreteBuilder constrói a representação interna do produto e define o processo de montagem.
 
-### Por que usar:
+##### Por que usar:
 1. **Separação de Responsabilidades**: Separa a construção de um objeto complexo de sua representação.
 2. **Flexibilidade**: Permite que um objeto seja construído em várias etapas e até mesmo com detalhes variados a cada construção.
 3. **Criação de Objetos Complexos**: Facilita a criação de objetos que possuem muitos atributos ou que possuem uma sequência específica de etapas de construção.
 4. **Reutilização**: O mesmo processo de construção pode criar diferentes representações.
 
-### Pontos de atenção:
+##### Pontos de atenção:
 1. **Complexidade Adicional**: Pode introduzir uma complexidade adicional ao código, pois divide a construção em várias classes.
 2. **Necessidade**: Não deve ser usado se o objeto que você está tentando criar é simples e não requer uma configuração complexa.
 
+
+##### Exemplo
+
+```python
+# Product
+class Sandwich:
+    def __init__(self):
+        self.ingredients = []
+
+    def add_ingredient(self, ingredient):
+        self.ingredients.append(ingredient)
+
+    def show(self):
+        print("Sanduíche com:", ", ".join(self.ingredients))
+
+# Builder Interface
+class SandwichBuilder:
+    def add_meat(self):
+        pass
+
+    def add_vegetable(self):
+        pass
+
+    def add_condiment(self):
+        pass
+
+    def get_result(self):
+        pass
+
+# ConcreteBuilder
+class ChickenSandwichBuilder(SandwichBuilder):
+    def __init__(self):
+        self.sandwich = Sandwich()
+
+    def add_meat(self):
+        self.sandwich.add_ingredient("Frango")
+
+    def add_vegetable(self):
+        self.sandwich.add_ingredient("Alface")
+
+    def add_condiment(self):
+        self.sandwich.add_ingredient("Maionese")
+
+    def get_result(self):
+        return self.sandwich
+
+# ConcreteBuilder
+class VeggieSandwichBuilder(SandwichBuilder):
+    def __init__(self):
+        self.sandwich = Sandwich()
+
+    def add_vegetable(self):
+        self.sandwich.add_ingredient("Tomate")
+        self.sandwich.add_ingredient("Pepino")
+
+    def add_condiment(self):
+        self.sandwich.add_ingredient("Mostarda")
+
+    def get_result(self):
+        return self.sandwich
+
+# Director
+class SandwichDirector:
+    def __init__(self, builder):
+        self.builder = builder
+
+    def make_sandwich(self):
+        self.builder.add_meat()
+        self.builder.add_vegetable()
+        self.builder.add_condiment()
+        return self.builder.get_result()
+
+# Client
+chicken_builder = ChickenSandwichBuilder()
+director = SandwichDirector(chicken_builder)
+chicken_sandwich = director.make_sandwich()
+chicken_sandwich.show()
+
+veggie_builder = VeggieSandwichBuilder()
+director = SandwichDirector(veggie_builder)
+veggie_sandwich = director.make_sandwich()
+veggie_sandwich.show()
+```
+#### Codigo
+No exemplo implementamos o padrão **Builder** para criar sanduíches, incluindo todos os componentes principais do padrão:
+
+1. **Builder**: Representado pela classe `SandwichBuilder`, que define uma interface para construir partes do sanduíche.
+2. **ConcreteBuilder**: Temos dois construtores concretos: `ChickenSandwichBuilder` e `VeggieSandwichBuilder`. Eles implementam a interface `SandwichBuilder` e definem como construir um sanduíche de frango e um sanduíche veggie, respectivamente.
+3. **Director**: Representado pela classe `SandwichDirector`, que aceita um `SandwichBuilder` e orquestra a construção do sanduíche.
+4. **Product**: Representado pela classe `Sandwich`.
+
+O cliente agora usa o `SandwichDirector` para construir os sanduíches, passando o construtor desejado ao diretor.
 
 ##### Referencia
 [refactoring - Builder](https://refactoring.guru/design-patterns/builder)
