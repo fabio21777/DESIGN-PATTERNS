@@ -198,7 +198,6 @@ O padrão Builder é um padrão de projeto de software criacional que permite a 
 ##### Referencia
 [refactoring - Builder](https://refactoring.guru/design-patterns/builder)
 [GOF BUILDER - Entenda de forma FÁCIL e OBJETIVA como ele funciona](https://youtu.be/dbw_BMHEgkY?si=0PW2mqz0XFbuVfMf)
-
 [Design Pattern Builder na Prática](https://youtu.be/W-96z2EjoJ0?si=KUGBuEXcgEDSklNb)
 ## Padrões Estruturais
 
