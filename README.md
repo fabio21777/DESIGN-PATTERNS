@@ -4,7 +4,9 @@ Este é apenas o resumo dos meus estudos iniciais sobre padrões de projeto. Os 
 
 ## Introdução
 
-### Padrões Criacionais
+### [Padrões Criacionais](#padrões-criacionais)
+
+
 Os padrões criacionais se concentram em técnicas de criação de objetos, garantindo que os objetos sejam criados de maneira adequada para a situação.
 
 1. **Singleton**
@@ -13,7 +15,7 @@ Os padrões criacionais se concentram em técnicas de criação de objetos, gara
 4. **[Builder](#builder)**
 5. **Prototype**
 
-### Padrões Estruturais
+### [Padrões Estruturais](#padrões-estruturais)
 Os padrões estruturais se concentram em como os objetos e classes são combinados para formar estruturas maiores.
 
 1. **[Adapter](#adapter)**
@@ -24,7 +26,7 @@ Os padrões estruturais se concentram em como os objetos e classes são combinad
 6. **[Flyweight](#flyweight)**
 7. **[Proxy](#proxy)**
 
-### Padrões Comportamentais
+### [Padrões Comportamentais](#padrões-comportamentais)
 Os padrões comportamentais se concentram na comunicação entre objetos.
 
 1. **[Chain of Responsibility](#chain-of-responsibility)**
@@ -40,12 +42,12 @@ Os padrões comportamentais se concentram na comunicação entre objetos.
 11. **[Visitor](#visitor)**
 
 
-## Explorando mais detalhadamente os padrões de projetos.
-
-### Padrões Criacionais
 
 
-#### Factory Method
+## Padrões Criacionais
+
+
+### Factory Method
 
 #### Definição
 O Factory Method é um padrão de design criacional que fornece uma interface para criar objetos, mas permite que as subclasses alterem o tipo de objetos que serão criados.
@@ -158,7 +160,7 @@ if __name__ == "__main__":
 O padrão Factory Method é implementado através da interface **CreatorMessage** e suas subclasses concretas. A interface define um método abstrato **create_message**, que é o método de fábrica. As subclasses concretas implementam esse método para criar mensagens de erro específicas para cada serviço.
 
 Os serviços (ServiceA/B/C) dependem da interface **CreatorMessage**, e não das classes concretas. Isso permite que os serviços sejam estendidos e modificados independentemente das regras de criação de mensagens de erro.
-##### Referencia
+#### Referencia
 [Factory Method](https://refactoring.guru/design-patterns/factory-method)
 [Factory Method - python  ](https://refactoring.guru/design-patterns/factory-method/python/example)
 [Um Programador Pleno já deveria saber usar esse Design Pattern (tutorial linha a linha)](https://youtu.be/arAz2Ff8s88)
@@ -168,34 +170,34 @@ Os serviços (ServiceA/B/C) dependem da interface **CreatorMessage**, e não das
 
 
 
-##### Referencia
+#### Referencia
 [Entenda DEFINITIVAMENTE o padrão Abstract Factory do GOF](https://youtu.be/_EcV-BcJ2-E)
 [Abstract Factory Teoria - Padrões de Projeto - Parte 12/45](https://youtu.be/UPSuHqNsNs4)
 
-#### Builder
+### Builder
 
 
-##### O que é:
+#### O que é:
 O padrão Builder é um padrão de projeto de software criacional que permite a construção de objetos complexos passo a passo. Ele separa a construção de um objeto complexo de sua representação, de modo que o mesmo processo de construção possa criar diferentes representações.
 
-##### Componentes principais:
+#### Componentes principais:
 1. **Builder**: Interface que define os métodos para construir as partes de um objeto complexo.
 2. **ConcreteBuilder**: Implementa a interface Builder e constrói e monta as partes do produto, definindo e mantendo uma representação.
 3. **Director**: Constrói um objeto usando a interface Builder.
 4. **Product**: Representa o objeto complexo que está sendo construído. ConcreteBuilder constrói a representação interna do produto e define o processo de montagem.
 
-##### Por que usar:
+#### Por que usar:
 1. **Separação de Responsabilidades**: Separa a construção de um objeto complexo de sua representação.
 2. **Flexibilidade**: Permite que um objeto seja construído em várias etapas e até mesmo com detalhes variados a cada construção.
 3. **Criação de Objetos Complexos**: Facilita a criação de objetos que possuem muitos atributos ou que possuem uma sequência específica de etapas de construção.
 4. **Reutilização**: O mesmo processo de construção pode criar diferentes representações.
 
-##### Pontos de atenção:
+#### Pontos de atenção:
 1. **Complexidade Adicional**: Pode introduzir uma complexidade adicional ao código, pois divide a construção em várias classes.
 2. **Necessidade**: Não deve ser usado se o objeto que você está tentando criar é simples e não requer uma configuração complexa.
 
 
-##### Exemplo
+#### Exemplo
 
 ```python
 # Product
@@ -287,7 +289,7 @@ No exemplo implementamos o padrão **Builder** para criar sanduíches, incluindo
 
 O cliente agora usa o `SandwichDirector` para construir os sanduíches, passando o construtor desejado ao diretor.
 
-##### Referencia
+#### Referencia
 [refactoring - Builder](https://refactoring.guru/design-patterns/builder)
 [GOF BUILDER - Entenda de forma FÁCIL e OBJETIVA como ele funciona](https://youtu.be/dbw_BMHEgkY?si=0PW2mqz0XFbuVfMf)
 [Design Pattern Builder na Prática](https://youtu.be/W-96z2EjoJ0?si=KUGBuEXcgEDSklNb)
@@ -405,7 +407,7 @@ O **Strategy Pattern** define uma família de algoritmos, encapsula cada um dele
 
 #### Exemplo
 
-##### Exemplo: Calculadora de Descontos
+#### Exemplo: Calculadora de Descontos
 
 ```python
 from abc import ABC, abstractmethod
@@ -460,7 +462,7 @@ Imagine que você está desenvolvendo um sistema de e-commerce e deseja aplicar 
 
 Ao usar o **Strategy Pattern** neste exemplo, você pode facilmente adicionar novas estratégias de desconto no futuro sem modificar o código existente. Por exemplo, se você quiser adicionar uma estratégia de "compre um, leve o segundo pela metade do preço", basta criar uma nova classe que implemente `DiscountStrategy` e aplicá-la ao produto desejado.
 
-##### Referencia
+#### Referencia
 
 [Strategy](https://refactoring.guru/design-patterns/strategy)
 [Identifique Quando e Como Usar o Design Pattern Strategy na Prática](https://youtu.be/WPdrnuSHAQs)
@@ -638,3 +640,102 @@ if __name__ == "__main__":
 3. **Acoplamento**: Como as subclasses dependem da classe base, qualquer alteração na classe base pode ter efeitos colaterais nas subclasses, levando a problemas de manutenção.
 
 Em resumo, enquanto o padrão Template Method é poderoso e útil em muitos cenários, é importante considerar as necessidades específicas do sistema e os trade-offs envolvidos antes de decidir usá-lo.
+
+### Command
+
+O padrão **Command** é um padrão de design comportamental que transforma uma solicitação em um objeto autônomo que contém informações sobre a solicitação. Isso permite que os parâmetros sejam passados, enfileirados, registrados ou executados em diferentes momentos.
+
+#### O que é:
+O padrão Command encapsula uma solicitação como um objeto, permitindo que os usuários parametrizem clientes com diferentes solicitações, enfileirem solicitações, registrem o log de solicitações e suportem operações reversíveis.
+
+#### Componentes Principais:
+1. **Command**: Declara uma interface para executar uma operação.
+2. **ConcreteCommand**: Define um vínculo entre o objeto Receiver e a ação. Implementa o método `execute` invocando a(s) operação(ões) correspondente(s) no Receiver.
+3. **Client**: Cria um objeto ConcreteCommand e define seu receptor.
+4. **Invoker**: Solicita que o comando seja executado.
+5. **Receiver**: Sabe como realizar as operações associadas a uma solicitação. Qualquer classe pode atuar como Receiver.
+
+#### Por que usar:
+- **Desacoplamento**: Separa objetos que invocam operações dos objetos que realmente executam essas operações.
+- **Flexibilidade**: Permite que comandos sejam enfileirados, revertidos ou registrados.
+- **Extensibilidade**: Novos comandos podem ser adicionados sem alterar o código existente.
+
+#### Exemplo
+
+```python
+# Receiver
+class Database:
+    def __init__(self):
+        self.data = []
+
+    def insert_record(self, record):
+        self.data.append(record)
+        print(f"Registro '{record}' inserido.")
+
+    def delete_record(self, record):
+        if record in self.data:
+            self.data.remove(record)
+            print(f"Registro '{record}' deletado.")
+        else:
+            print(f"Registro '{record}' não encontrado.")
+
+# Command Interface
+class Command:
+    def execute(self):
+        pass
+
+# ConcreteCommand
+class InsertCommand(Command):
+    def __init__(self, database, record):
+        self.database = database
+        self.record = record
+
+    def execute(self):
+        self.database.insert_record(self.record)
+
+# ConcreteCommand
+class DeleteCommand(Command):
+    def __init__(self, database, record):
+        self.database = database
+        self.record = record
+
+    def execute(self):
+        self.database.delete_record(self.record)
+
+# Invoker
+class DatabaseInvoker:
+    def __init__(self, command):
+        self.command = command
+
+    def call(self):
+        self.command.execute()
+
+# Client
+db = Database()
+insert_cmd = InsertCommand(db, "Registro1")
+delete_cmd = DeleteCommand(db, "Registro1")
+
+invoker = DatabaseInvoker(insert_cmd)
+invoker.call()
+
+invoker = DatabaseInvoker(delete_cmd)
+invoker.call()
+
+```
+#### Código
+
+- **Database**: É o `Receiver`, responsável por realizar as operações reais de inserir e deletar registros.
+- **Command**: É a interface que declara o método `execute`.
+- **InsertCommand** e **DeleteCommand**: São os `ConcreteCommands` que encapsulam a ação a ser executada.
+- **DatabaseInvoker**: É o `Invoker` que invoca o comando.
+- **Client**: Cria os comandos e os invoca através do invoker.
+
+#### Pontos de atenção:
+- **Complexidade**: Pode aumentar a complexidade do código ao introduzir várias classes e objetos.
+- **Overhead**: Cada comando é uma classe separada, o que pode resultar em um overhead se houver muitos comandos simples.
+- **Reversão**: Nem todos os comandos são reversíveis. Se a funcionalidade de desfazer for necessária, é preciso implementar cuidadosamente.
+
+Ao usar o padrão Command, é importante garantir que o sistema permaneça claro e não se torne excessivamente complexo com a introdução de muitos comandos específicos.
+
+#### Referencias
+[refactoring guru Command](https://refactoring.guru/pt-br/design-patterns/command)
