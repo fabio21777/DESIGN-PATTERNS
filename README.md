@@ -739,3 +739,125 @@ Ao usar o padrão Command, é importante garantir que o sistema permaneça claro
 
 #### Referencias
 [refactoring guru Command](https://refactoring.guru/pt-br/design-patterns/command)
+
+
+### Padrão de Design Iterator
+
+#### O que é?
+O padrão Iterator, conforme definido pelo GoF, fornece uma maneira de acessar os elementos de uma coleção de objetos sequencialmente sem expor sua representação subjacente. Ele encapsula os detalhes da iteração, permitindo que os clientes percorram a coleção sem conhecer sua estrutura interna.
+
+#### Estrutura
+- **Iterator**: Define uma interface para acessar e percorrer elementos.
+- **ConcreteIterator**: Implementa a interface do Iterator e mantém a posição de iteração atual na coleção.
+- **Aggregate**: Define uma interface para criar um objeto Iterator.
+- **ConcreteAggregate**: Implementa a interface do Aggregate e retorna uma instância do ConcreteIterator.
+
+#### Onde Usar?
+1. Quando você quer fornecer uma maneira uniforme de acessar diferentes estruturas de coleções.
+2. Quando você quer permitir o acesso sequencial a uma coleção sem expor seus detalhes internos.
+3. Quando você quer fornecer múltiplas formas de percorrer uma coleção complexa.
+
+#### Pontos de Atenção
+1. A complexidade adicional: Implementar o padrão Iterator pode adicionar uma camada extra de complexidade ao seu código.
+2. Manter a sincronização com a coleção: É importante garantir que o iterador esteja sincronizado com a coleção, especialmente se a coleção pode ser modificada durante a iteração.
+3. Performance: Dependendo da implementação, pode haver uma ligeira degradação no desempenho, especialmente se o iterador realizar operações complexas durante a iteração.
+
+
+#### Exemplo
+
+```python
+from abc import ABC, abstractmethod
+
+class Iterator(ABC):
+    @abstractmethod
+    def has_next(self):
+        pass
+
+    @abstractmethod
+    def next_item(self):
+        pass
+
+
+class Aggregate(ABC):
+    @abstractmethod
+    def create_iterator(self):
+        pass
+
+
+class ConcreteAggregate(Aggregate):
+    def __init__(self):
+        self.items = []
+
+    def add_item(self, item):
+        self.items.append(item)
+
+    def create_iterator(self, iterator_type):
+        if iterator_type == 'forward':
+            return ForwardIterator(self)
+        else:
+            return BackwardIterator(self)
+
+
+class ForwardIterator(Iterator):
+    def __init__(self, aggregate):
+        self.aggregate = aggregate
+        self.current_index = 0
+
+    def has_next(self):
+        return self.current_index < len(self.aggregate.items)
+
+    def next_item(self):
+        if self.has_next():
+            item = self.aggregate.items[self.current_index]
+            self.current_index += 1
+            return item
+        else:
+            raise StopIteration
+
+
+class BackwardIterator(Iterator):
+    def __init__(self, aggregate):
+        self.aggregate = aggregate
+        self.current_index = len(self.aggregate.items) - 1
+
+    def has_next(self):
+        return self.current_index >= 0
+
+    def next_item(self):
+        if self.has_next():
+            item = self.aggregate.items[self.current_index]
+            self.current_index -= 1
+            return item
+        else:
+            raise StopIteration
+
+
+# Exemplo de uso
+if __name__ == "__main__":
+    aggregate = ConcreteAggregate()
+    aggregate.add_item("Item 1")
+    aggregate.add_item("Item 2")
+    aggregate.add_item("Item 3")
+
+    print("Iteração para frente:")
+    forward_iterator = aggregate.create_iterator('forward')
+    while forward_iterator.has_next():
+        print(forward_iterator.next_item())
+
+    print("\nIteração para trás:")
+    backward_iterator = aggregate.create_iterator('backward')
+    while backward_iterator.has_next():
+        print(backward_iterator.next_item())
+
+```
+#### codigo
+
+- `Iterator` e `Aggregate` são classes abstratas que definem as interfaces para os iteradores e agregados, respectivamente.
+- `ConcreteAggregate` é uma coleção de itens que pode criar dois tipos de iteradores: `ForwardIterator` e `BackwardIterator`.
+- `ForwardIterator` é um iterador que percorre os itens na coleção `ConcreteAggregate` da frente para trás.
+- `BackwardIterator` é um iterador que percorre os itens na coleção `ConcreteAggregate` de trás para frente.
+
+
+
+#### Referencias
+[refactoring guru iterator](https://refactoring.guru/design-patterns/iterator)
