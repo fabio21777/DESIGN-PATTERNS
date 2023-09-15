@@ -861,3 +861,82 @@ if __name__ == "__main__":
 
 #### Referencias
 [refactoring guru iterator](https://refactoring.guru/design-patterns/iterator)
+
+### Mediator
+
+#### O que é:
+
+O padrão Mediator é um padrão de design comportamental que visa reduzir as conexões entre classes ou objetos múltiplos, centralizando as comunicações externas. Isso ajuda a diminuir a dependência mútua entre classes, promovendo um acoplamento mais fraco e um código mais limpo e modular.
+
+#### Componentes Principais:
+
+1. **Mediator Interface**: Define a interface para a comunicação entre objetos colegas (Colleague Objects).
+2. **Concrete Mediator**: Implementa a interface do mediator e coordena a comunicação entre objetos colegas. Ele conhece e mantém um rastreamento de seus colegas.
+3. **Colleague Classes**: Classes que comunicam-se entre si através do mediator, em vez de se comunicarem diretamente umas com as outras.
+
+#### Por que usar:
+
+1. **Redução de Acoplamento**: Ajuda a reduzir o acoplamento entre classes, facilitando a manutenção e a expansão do sistema.
+2. **Centralização da Comunicação**: Centraliza a comunicação, facilitando o rastreamento e a gestão das interações entre objetos.
+3. **Promove a Reutilização de Objetos**: Ao desacoplar os objetos, promove a reutilização de objetos, já que eles não estão diretamente interligados.
+4. **Simplicidade na Organização de Objetos**: Simplifica a organização de objetos e relações, tornando o sistema mais compreensível e gerenciável.
+5. **Flexibilidade na Definição de Comunicações**: Permite uma maior flexibilidade na definição de como os objetos se comunicam, facilitando ajustes e modificações futuras.
+
+#### codigo
+
+```python
+class Mediator:
+    def __init__(self):
+        self._colleagues = []
+
+    def add_colleague(self, colleague):
+        self._colleagues.append(colleague)
+
+    def send(self, message, sender):
+        for colleague in self._colleagues:
+            if colleague != sender:
+                colleague.receive(message)
+
+
+class Colleague:
+    def __init__(self, mediator, name):
+        self._mediator = mediator
+        self._name = name
+        mediator.add_colleague(self)
+
+    def send(self, message):
+        print(f"{self._name} enviou: {message}")
+        self._mediator.send(message, self)
+
+    def receive(self, message):
+        print(f"{self._name} recebeu: {message}")
+
+
+class Developer(Colleague):
+    def receive(self, message):
+        print(f"Desenvolvedor {self._name} recebeu: {message}")
+
+
+class Tester(Colleague):
+    def receive(self, message):
+        print(f"Tester {self._name} recebeu: {message}")
+
+
+# Exemplo de uso
+if __name__ == "__main__":
+    mediator = Mediator()
+
+    dev1 = Developer(mediator, "Dev1")
+    dev2 = Developer(mediator, "Dev2")
+    tester1 = Tester(mediator, "Tester1")
+    tester2 = Tester(mediator, "Tester2")
+
+    dev1.send("O novo recurso foi implementado.")
+    tester1.send("O novo recurso passou em todos os testes.")
+
+```
+
+
+
+#### Referencias
+[refactoring guru mediator](https://refactoring.guru/design-patterns/mediator)
