@@ -935,8 +935,82 @@ if __name__ == "__main__":
     tester1.send("O novo recurso passou em todos os testes.")
 
 ```
-
-
-
 #### Referencias
 [refactoring guru mediator](https://refactoring.guru/design-patterns/mediator)
+
+
+### Observer
+
+#### O que é:
+O padrão Observer é um padrão de design comportamental que define uma dependência um-para-muitos entre objetos, de forma que, quando o estado de um objeto (sujeito) muda, todos os seus dependentes (observadores) são automaticamente notificados e atualizados. Este padrão é amplamente utilizado para implementar sistemas distribuídos e reativos.
+
+#### Componentes principais:
+1. **Sujeito (Subject)**: O objeto que mantém uma lista de seus observadores e notifica-os automaticamente de quaisquer mudanças de estado, geralmente por meio de um dos seus métodos.
+   
+2. **Observador (Observer)**: A interface ou classe abstrata que define os métodos de notificação que devem ser implementados pelos observadores concretos.
+
+3. **Observador Concreto (Concrete Observer)**: Classes que implementam a interface do observador e respondem às notificações do sujeito.
+
+#### Pontos de atenção:
+1. **Notificações em Cascata**: Mudanças no sujeito podem causar uma série de notificações, o que pode resultar em atualizações complexas e potencialmente ineficientes.
+   
+2. **Desempenho**: Se houver muitos observadores ou as operações de atualização forem complexas, pode haver problemas de desempenho.
+
+3. **Manutenção da Lista de Observadores**: O sujeito precisa gerenciar a lista de observadores de forma eficaz, permitindo adições e remoções dinâmicas.
+
+4. **Acoplamento**: Embora o padrão promova a separação de preocupações, pode haver um certo nível de acoplamento entre o sujeito e os observadores, já que os observadores precisam ser notificados sobre as mudanças no sujeito.
+
+#### Exemplo
+
+``` python
+class WeatherObserver:
+    def update(self, temperature, humidity):
+        pass
+
+class User(WeatherObserver):
+    def __init__(self, name):
+        self.name = name
+
+    def update(self, temperature, humidity):
+        print(f'{self.name} recebeu a atualização do clima: Temperatura = {temperature}°C, Umidade = {humidity}%')
+
+class WeatherStation:
+    def __init__(self):
+        self.observers = []
+        self.temperature = 0
+        self.humidity = 0
+
+    def register_observer(self, observer):
+        self.observers.append(observer)
+
+    def unregister_observer(self, observer):
+        self.observers.remove(observer)
+
+    def notify_observers(self):
+        for observer in self.observers:
+            observer.update(self.temperature, self.humidity)
+
+    def set_conditions(self, temperature, humidity):
+        self.temperature = temperature
+        self.humidity = humidity
+        self.notify_observers()
+
+# Criando instâncias de usuários
+user1 = User("João")
+user2 = User("Maria")
+
+# Criando uma instância da estação meteorológica
+weather_station = WeatherStation()
+
+# Registrando os usuários na estação meteorológica
+weather_station.register_observer(user1)
+weather_station.register_observer(user2)
+
+# Atualizando as condições climáticas e notificando os usuários
+weather_station.set_conditions(30, 60)
+
+# Saída:
+# João recebeu a atualização do clima: Temperatura = 30°C, Umidade = 60%
+# Maria recebeu a atualização do clima: Temperatura = 30°C, Umidade = 60%
+
+```
