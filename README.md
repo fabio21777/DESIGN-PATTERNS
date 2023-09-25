@@ -1014,3 +1014,108 @@ weather_station.set_conditions(30, 60)
 # Maria recebeu a atualização do clima: Temperatura = 30°C, Umidade = 60%
 
 ```
+### State
+
+### O que é:
+O padrão State é um padrão de design comportamental que permite a um objeto alterar seu comportamento quando seu estado interno muda. Isso é como se o objeto mudasse de classe. Esse padrão é útil quando um objeto tem comportamentos que dependem do seu estado, e deve ser capaz de mudar seu comportamento em tempo de execução de acordo com o novo estado.
+
+### Componentes Principais:
+1. **Interface de Estado (State Interface)**:
+   - Define uma interface para encapsular o comportamento associado a um estado particular do objeto Contexto.
+   
+2. **Classes de Estado Concretas (Concrete State Classes)**:
+   - Implementam a interface de Estado e fornecem a implementação específica para os comportamentos do estado.
+   
+3. **Contexto (Context)**:
+   - Mantém uma referência ao estado atual e pode mudar para diferentes estados. O contexto passa a si mesmo para os estados para permitir que o estado acesse seus dados e métodos.
+
+### Pontos de Atenção:
+1. **Manutenção**:
+   - O padrão State pode resultar em muitas classes de estado concreto, o que pode ser difícil de manter e entender.
+   
+2. **Transições de Estado**:
+   - As transições entre estados devem ser claramente definidas e controladas para evitar comportamentos inesperados.
+   
+3. **Encapsulamento**:
+   - O padrão State pode violar o princípio do encapsulamento ao expor estados específicos. É importante garantir que o encapsulamento seja mantido tanto quanto possível.
+
+4. **Dependências**:
+   - Se os estados precisarem comunicar-se entre si ou com o contexto, isso pode introduzir dependências que podem ser difíceis de gerenciar.
+
+5. **Performance**:
+   - Se houver muitas transições de estado em um curto período de tempo, isso pode afetar a performance do sistema.
+
+O padrão State é uma maneira eficaz de modelar sistemas com comportamentos complexos e estados, mas deve ser usado com cuidado, especialmente em sistemas com um grande número de estados e transições.
+
+### Codigo
+```python 
+# Interface de Estado
+class State:
+    def insert_coin(self, machine):
+        pass
+
+    def eject_coin(self, machine):
+        pass
+
+    def turn_crank(self, machine):
+        pass
+
+# Estados Concretos
+class NoGumball(State):
+    def insert_coin(self, machine):
+        print("Sem goma: Inserção de moeda não permitida.")
+
+    def eject_coin(self, machine):
+        print("Sem goma: Não há moeda para ejetar.")
+
+    def turn_crank(self, machine):
+        print("Sem goma: Girar a manivela não é permitido.")
+
+class HasGumball(State):
+    def insert_coin(self, machine):
+        print("Moeda inserida. Gire a manivela para obter uma goma.")
+        machine.set_state(CoinInserted())
+
+    def eject_coin(self, machine):
+        print("Nenhuma moeda inserida para ejetar.")
+
+    def turn_crank(self, machine):
+        print("Nenhuma moeda inserida. Insira uma moeda primeiro.")
+
+class CoinInserted(State):
+    def insert_coin(self, machine):
+        print("Moeda já inserida.")
+
+    def eject_coin(self, machine):
+        print("Moeda ejetada.")
+        machine.set_state(HasGumball())
+
+    def turn_crank(self, machine):
+        print("Goma entregue.")
+        machine.set_state(NoGumball())
+
+# Contexto
+class GumballMachine:
+    def __init__(self):
+        self.state = NoGumball()
+
+    def set_state(self, state):
+        self.state = state
+
+    def insert_coin(self):
+        self.state.insert_coin(self)
+
+    def eject_coin(self):
+        self.state.eject_coin(self)
+
+    def turn_crank(self):
+        self.state.turn_crank(self)
+
+# Teste
+machine = GumballMachine()
+machine.insert_coin()  # Output: Sem goma: Inserção de moeda não permitida.
+machine.set_state(HasGumball())
+machine.insert_coin()  # Output: Moeda inserida. Gire a manivela para obter uma goma.
+machine.turn_crank()   # Output: Goma entregue.
+
+```
