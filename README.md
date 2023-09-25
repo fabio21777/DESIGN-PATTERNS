@@ -13,7 +13,7 @@ Os padrões criacionais se concentram em técnicas de criação de objetos, gara
 2. **[Factory Method](#factory-method)**
 3. **[Abstract Factory](#abstract-factory)**
 4. **[Builder](#builder)**
-5. **Prototype**
+5. **[Prototype](#prototype)**
 
 ### [Padrões Estruturais](#padrões-estruturais)
 Os padrões estruturais se concentram em como os objetos e classes são combinados para formar estruturas maiores.
@@ -350,6 +350,63 @@ O cliente agora usa o `SandwichDirector` para construir os sanduíches, passando
 [refactoring - Builder](https://refactoring.guru/design-patterns/builder)
 [GOF BUILDER - Entenda de forma FÁCIL e OBJETIVA como ele funciona](https://youtu.be/dbw_BMHEgkY?si=0PW2mqz0XFbuVfMf)
 [Design Pattern Builder na Prática](https://youtu.be/W-96z2EjoJ0?si=KUGBuEXcgEDSklNb)
+
+### Prototype
+
+#### O que é:
+O padrão Prototype é um padrão de design criacional que permite a criação de objetos através da cópia de um objeto existente, conhecido como protótipo, em vez de criar novos objetos instanciando uma classe e criando a partir do zero. Este padrão é especialmente útil quando o custo de criar um objeto é mais complexo ou custoso do que copiá-lo.
+
+#### Componentes principais:
+1. **Protótipo (Prototype)**:
+   - A interface ou classe abstrata que define os métodos para clonar o objeto.
+   
+2. **Protótipos Concretos**:
+   - As classes concretas que implementam a interface do protótipo e definem o método de clonagem.
+
+3. **Cliente**:
+   - A classe que cria novos objetos copiando um objeto protótipo existente.
+
+#### Pontos de Atenção:
+
+1. **Clonagem Profunda vs Clonagem Rasa**:
+   - A clonagem rasa copia os valores dos campos do objeto. Se o campo é uma referência a outro objeto, apenas a referência é copiada. A clonagem profunda, por outro lado, cria cópias recursivas de objetos referenciados. É importante entender a diferença e escolher a abordagem correta com base nas necessidades do projeto.
+
+2. **Manutenção**:
+   - Se o número de classes protótipo aumentar, o sistema pode se tornar difícil de gerenciar.
+
+3. **Identidade de Objeto**:
+   - Ao usar o padrão Prototype, os objetos clonados terão identidades diferentes, mesmo que o conteúdo seja o mesmo.
+
+#### exemplo
+```python
+import copy
+
+class Prototype:
+    def clone(self):
+        return copy.deepcopy(self)
+
+class Date(Prototype):
+    def __init__(self, day, month, year):
+        self.day = day
+        self.month = month
+        self.year = year
+
+    def __str__(self):
+        return f"{self.day}/{self.month}/{self.year}"
+
+# Cliente
+date1 = Date(25, 9, 2023)
+print(date1)  # Output: 25/9/2023
+
+# Criando uma cópia da data
+date2 = date1.clone()
+print(date2)  # Output: 25/9/2023
+
+# Verificando se são objetos diferentes
+print(date1 is date2)  # Output: False
+
+```
+
 ## Padrões Estruturais
 
 ### Facade
