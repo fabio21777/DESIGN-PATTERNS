@@ -1119,3 +1119,97 @@ machine.insert_coin()  # Output: Moeda inserida. Gire a manivela para obter uma 
 machine.turn_crank()   # Output: Goma entregue.
 
 ```
+### Visitor 
+
+### O que é:
+O padrão Visitor é um padrão de design comportamental que permite adicionar operações adicionais em objetos sem ter que modificá-los. Isso é útil quando você tem uma estrutura de objetos estável com operações que podem mudar frequentemente.
+
+### Componentes Principais:
+1. **Visitor (Visitante)**:
+   - Uma interface ou classe abstrata que declara um método de visita para cada tipo de elemento concreto na estrutura do objeto.
+
+2. **ConcreteVisitor (Visitante Concreto)**:
+   - Classes que implementam a interface Visitor e fornecem a implementação específica para os métodos de visita.
+
+3. **Element (Elemento)**:
+   - Uma interface ou classe abstrata que declara um método de aceitação (`accept`) que aceita um objeto visitor como argumento.
+
+4. **ConcreteElement (Elemento Concreto)**:
+   - Classes que implementam a interface Element e fornecem a implementação específica para o método de aceitação.
+
+5. **ObjectStructure (Estrutura de Objeto)**:
+   - Uma classe que agrupa os elementos concretos e permite que os visitantes visitem os elementos.
+
+### Pontos de Atenção:
+1. **Acoplamento**:
+   - O padrão Visitor pode introduzir um acoplamento forte entre os elementos e os visitantes, o que pode ser problemático se a estrutura do objeto ou os visitantes mudarem frequentemente.
+
+2. **Quebra de Encapsulamento**:
+   - Os visitantes precisam acessar os dados internos dos elementos, o que pode quebrar o encapsulamento.
+
+3. **Complexidade**:
+   - O padrão pode se tornar complexo se a estrutura do objeto tiver muitos tipos de elementos ou se muitas operações diferentes forem necessárias.
+
+4. **Extensibilidade**:
+   - Adicionar novos tipos de elementos pode ser difícil, pois isso requer a modificação de todas as classes de visitantes existentes para adicionar novos métodos de visita.
+
+### Codigo 
+
+```python 
+from abc import ABC, abstractmethod
+
+class AnimalVisitor:
+    def visit(self, animal):
+        pass
+
+class SoundVisitor(AnimalVisitor):
+    def visit(self, animal):
+        animal.make_sound()
+
+class FeedVisitor(AnimalVisitor):
+    def visit(self, animal):
+        animal.eat()
+
+class Animal(ABC):
+    @abstractmethod
+    def make_sound(self):
+        pass
+
+    @abstractmethod
+    def eat(self):
+        pass
+
+    def accept(self, visitor):
+        visitor.visit(self)
+
+class Dog(Animal):
+    def make_sound(self):
+        print("Au au!")
+
+    def eat(self):
+        print("O cachorro está comendo.")
+
+class Cat(Animal):
+    def make_sound(self):
+        print("Miau!")
+
+    def eat(self):
+        print("O gato está comendo.")
+
+# Criando animais
+dog = Dog()
+cat = Cat()
+
+# Criando visitantes
+sound_visitor = SoundVisitor()
+feed_visitor = FeedVisitor()
+
+# Fazendo os animais emitirem sons
+dog.accept(sound_visitor)  # Output: Au au!
+cat.accept(sound_visitor)  # Output: Miau!
+
+# Alimentando os animais
+dog.accept(feed_visitor)  # Output: O cachorro está comendo.
+cat.accept(feed_visitor)  # Output: O gato está comendo.
+ 
+```
