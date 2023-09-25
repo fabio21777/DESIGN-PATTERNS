@@ -9,7 +9,7 @@ Este é apenas o resumo dos meus estudos iniciais sobre padrões de projeto. Os 
 
 Os padrões criacionais se concentram em técnicas de criação de objetos, garantindo que os objetos sejam criados de maneira adequada para a situação.
 
-1. **Singleton**
+1. **[Singleton](#singleton)**
 2. **[Factory Method](#factory-method)**
 3. **[Abstract Factory](#abstract-factory)**
 4. **[Builder](#builder)**
@@ -46,6 +46,63 @@ Os padrões comportamentais se concentram na comunicação entre objetos.
 
 ## Padrões Criacionais
 
+### Singleton
+### O que é:
+O padrão Singleton é um padrão de design criacional que garante que uma classe tenha apenas uma instância e fornece um ponto de acesso global a essa instância. É útil quando você quer garantir que uma classe seja instanciada apenas uma vez, por exemplo, para gerenciar conexões com um banco de dados ou um arquivo de configuração.
+
+### Componentes principais:
+1. **Singleton Class (Classe Singleton)**:
+   - Uma classe que encapsula sua própria instância e garante que nenhuma outra instância possa ser criada.
+
+### Pontos de Atenção:
+1. **Global State**:
+   - O padrão Singleton cria um estado global, o que pode ser problemático em sistemas complexos ou multithreaded.
+
+2. **Testabilidade**:
+   - Classes Singleton podem ser difíceis de testar devido à dificuldade de isolar o estado global.
+
+3. **Violando o Princípio de Responsabilidade Única**:
+   - A classe Singleton tem a responsabilidade de gerenciar sua instância e a lógica de negócios, violando o Princípio de Responsabilidade Única.
+
+4. **Uso Indevido**:
+   - O padrão Singleton pode ser usado indevidamente em situações onde não é necessário um controle tão estrito sobre as instâncias.
+
+#### Exemplo
+
+```python
+from datetime import datetime
+
+class DateConverterSingleton:
+    _instance = None  # Atributo privado para armazenar a única instância
+
+    @classmethod
+    def get_instance(cls):
+        if cls._instance is None:
+            cls._instance = cls()  # Cria uma instância se não existir
+        return cls._instance  # Retorna a instância existente
+
+    def __init__(self):
+        if DateConverterSingleton._instance is not None:
+            raise Exception("Esta classe é um Singleton! Use o método get_instance para obter a instância.")
+
+    def convert_to_brazilian(self, date):
+        return date.strftime("%d/%m/%Y")
+
+    def convert_to_american(self, date):
+        return date.strftime("%Y-%m-%d")
+
+    def convert_to_european(self, date):
+        return date.strftime("%d.%m.%Y")
+
+# Teste
+date_converter = DateConverterSingleton.get_instance()
+
+# Convertendo uma data para diferentes formatos
+date = datetime.now()
+print(date_converter.convert_to_brazilian(date))  # Output: 25/09/2023 (ou a data atual)
+print(date_converter.convert_to_american(date))   # Output: 2023-09-25 (ou a data atual)
+print(date_converter.convert_to_european(date))   # Output: 25.09.2023 (ou a data atual)
+```
 
 ### Factory Method
 
